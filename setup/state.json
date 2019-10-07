@@ -1,0 +1,10 @@
+{
+  "system": {
+    "systemName": "0096c161-93da-49bb-8ed3-16877862162a",
+    "systemId": "f721cfbb-6578-4f86-8879-3e5323e76b37"
+  },
+  "data": {
+      "stateSetting1": "foo",
+      "stateSetting2": "bar"
+  }
+}

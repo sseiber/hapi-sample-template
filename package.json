@@ -1,0 +1,76 @@
+{
+    "name": "hapi-sample-template",
+    "version": "1.0.0",
+    "description": "Hapi sample template",
+    "main": "index.js",
+    "scripts": {
+        "test": "node ./node_modules/jest/bin/jest.js",
+        "tslint": "node ./node_modules/tslint/bin/tslint -p ./tsconfig.json",
+        "build": "node ./node_modules/typescript/bin/tsc -p .",
+        "dockerbuild": "node ./scripts/dockerBuild.js --docker-build",
+        "preversion": "npm test",
+        "version": "node ./scripts/dockerBuild.js --docker-build",
+        "postversion": "node ./scripts/dockerBuild.js --docker-push",
+        "postinstall": "node ./scripts/setupDevEnvironment.js"
+    },
+    "author": "sseiber",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": ""
+    },
+    "dependencies": {
+        "@hapi/bell": "^11.1.0",
+        "@hapi/boom": "^8.0.1",
+        "@hapi/cookie": "^10.1.2",
+        "@hapi/good": "^8.2.3",
+        "@hapi/good-console": "^8.1.2",
+        "@hapi/good-squeeze": "^5.2.1",
+        "@hapi/hapi": "^18.4.0",
+        "@hapi/inert": "^5.2.2",
+        "@hapi/nes": "^11.2.2",
+        "cheerio": "^1.0.0-rc.3",
+        "fs-extra": "^8.1.0",
+        "hapi-auth-jwt2": "^8.7.0",
+        "jsonwebtoken": "^8.5.1",
+        "lodash.assign": "^4.2.0",
+        "lodash.get": "^4.4.2",
+        "lodash.set": "^4.3.2",
+        "nconf": "^0.10.0",
+        "netmask": "^1.0.6",
+        "query-string": "^6.3.3",
+        "request": "^2.88.0",
+        "spryly": "^1.0.19",
+        "uuid": "^3.3.3"
+    },
+    "devDependencies": {
+        "@types/hapi__bell": "*",
+        "@types/hapi__hapi": "*",
+        "@types/hapi__inert": "*",
+        "@types/hapi__nes": "*",
+        "@types/jest": "^24.0.18",
+        "@types/nconf": "0.10.0",
+        "@types/node": "^11.12.2",
+        "@types/request": "^2.48.3",
+        "jest": "^24.9.0",
+        "ts-jest": "^24.1.0",
+        "tslint": "^5.20.0",
+        "typescript": "^3.6.3"
+    },
+    "jest": {
+        "rootDir": "./src/",
+        "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx)$",
+        "moduleFileExtensions": [
+            "ts",
+            "tsx",
+            "js",
+            "json"
+        ],
+        "transform": {
+            ".tsx?": "ts-jest"
+        },
+        "moduleNameMapper": {
+            "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "./__mocks__/fileMock.js"
+        }
+    }
+}
