@@ -37,4 +37,8 @@ This is basic HAPI micro-service to be used as a starting place for a micro-serv
   ```
   npm run dockerbuild
   ```
-  This will build the source into a docker container and upload it to your container registry. In the `./configs/imageConfig.json` you can specify `amd64` for the 64bit build or `arm32v7` for the Arm build. These correspond to the Dockerfile's in the `./docker` directory. Feel free to create other flavors.
+  This will build the source into a docker container and upload it to your container registry. It will use the version tag from the `package.json` version field. In the future you can use the `version` command which will increase the `package.json` version number, test, then build, then upload.
+  ```
+  npm version patch
+  ```
+  In the `./configs/imageConfig.json` you can specify `amd64` for the 64bit build or `arm32v7` for the Arm build. These correspond to the Dockerfile's in the `./docker` directory. Feel free to create other flavors.
