@@ -6,6 +6,7 @@ import { StorageService } from './storage';
 import { StateService } from './state';
 import { HealthService } from './health';
 import { SampleService } from './sample';
+import { IoTCentralService } from './iotcentral';
 
 export default [
     ConfigService,
@@ -14,5 +15,6 @@ export default [
     StorageService,
     StateService,
     HealthService,
-    SampleService
+    SampleService,
+    IoTCentralService
 ];

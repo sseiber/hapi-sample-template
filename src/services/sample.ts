@@ -1,8 +1,10 @@
 import { service, inject } from 'spryly';
+import { Server } from '@hapi/hapi';
 import { ConfigService } from './config';
 import { LoggingService } from './logging';
 import { StateService } from './state';
 import { HealthState } from './health';
+import { bind } from '../utils';
 
 export interface IRequestResult {
     status: boolean;
@@ -13,6 +15,9 @@ export interface IRequestResult {
 
 @service('sample')
 export class SampleService {
+    @inject('$server')
+    private server: Server;
+
     @inject('config')
     private config: ConfigService;
 
@@ -29,6 +34,8 @@ export class SampleService {
     public async init(): Promise<void> {
         this.logger.log(['SampleService', 'info'], 'initialize');
 
+        this.server.method({ name: 'sample.startModule', method: this.startModule });
+
         // read some state from the device itself - sometimes handy
         // for device configuration scenarios
         this.logger.log(['SampleService', 'info'], `State configuration is: ${JSON.stringify(this.state.data, null, 4)}`);
@@ -38,7 +45,14 @@ export class SampleService {
         this.sampleSetting2 = this.config.get('sampleSetting2');
     }
 
-    public async route1(testParam: string): Promise<IRequestResult> {
+    @bind
+    public async startModule(): Promise<void> {
+        setTimeout(() => {
+            this.logger.log(['SampleService', 'info'], `In procesing callback`);
+        }, (1000 * 15));
+    }
+
+    public async sampleTest1(testParam: string): Promise<IRequestResult> {
         this.logger.log(['SampleService', 'info'], `In route1 handler with testParam ${testParam}`);
 
         const result: IRequestResult = {
@@ -63,7 +77,7 @@ export class SampleService {
         return result;
     }
 
-    public async route2(testParam: string): Promise<IRequestResult> {
+    public async sampleTest2(testParam: string): Promise<IRequestResult> {
         this.logger.log(['SampleService', 'info'], `In route2 handler with testParam ${testParam}`);
 
         const result: IRequestResult = {

@@ -25,7 +25,7 @@ export class SampleRoutes extends RoutePlugin {
     // @ts-ignore (request)
     public async postSampleRoute1(request: Request, h: ResponseToolkit) {
         try {
-            const result = await this.sample.route1(request.params.testParam);
+            const result = await this.sample.sampleTest1(request.params.testParam);
 
             return h.response(result).code(201);
         }
@@ -51,7 +51,7 @@ export class SampleRoutes extends RoutePlugin {
     // @ts-ignore (request)
     public async getSampleRoute2(request: Request, h: ResponseToolkit) {
         try {
-            const result = await this.sample.route2(request.query.testParam as string);
+            const result = await this.sample.sampleTest2(request.query.testParam as string);
 
             return h.response(result).code(200);
         }

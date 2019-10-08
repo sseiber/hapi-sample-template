@@ -30,15 +30,22 @@ async function start() {
     const server = await compose(manifest({}), composeOptions);
 
     server.log(['startup', 'info'], `🚀 Starting HAPI server instance...`);
-    server.start()
-        .then(() => {
-            server.log(['startup', 'info'], `✅ Server started`);
-            server.log(['startup', 'info'], `🌎 ${server.info.uri}`);
-            server.log(['startup', 'info'], ` > Hapi version: ${server.version}`);
-            server.log(['startup', 'info'], ` > Plugins: [${Object.keys(server.registrations).join(', ')}]`);
-            server.log(['startup', 'info'], ` > Machine: ${osPlatform()}, ${osCpus().length} core, ` +
-                `freemem=${(osFreeMem() / 1024 / 1024).toFixed(0)}mb, totalmem=${(osTotalMem() / 1024 / 1024).toFixed(0)}mb`);
-        });
+    await server.start();
+
+    server.log(['startup', 'info'], `✅ Server started`);
+    server.log(['startup', 'info'], `🌎 ${server.info.uri}`);
+    server.log(['startup', 'info'], ` > Hapi version: ${server.version}`);
+    server.log(['startup', 'info'], ` > Plugins: [${Object.keys(server.registrations).join(', ')}]`);
+    server.log(['startup', 'info'], ` > Machine: ${osPlatform()}, ${osCpus().length} core, ` +
+        `freemem=${(osFreeMem() / 1024 / 1024).toFixed(0)}mb, totalmem=${(osTotalMem() / 1024 / 1024).toFixed(0)}mb`);
+
+    server.log(['startup', 'info'], `👨‍💻 Starting IoT Central provisioning`);
+    await (server.methods.iotCentral as any).connectToIoTCentral();
+    server.log(['startup', 'info'], `👩‍💻 Finished IoT Central provisioning`);
+
+    server.log(['startup', 'info'], `📷 Starting module initialzation`);
+    await (server.methods.sample as any).startModule();
+    server.log(['startup', 'info'], `📸 Finished module initialization`);
 }
 
 forget(start);

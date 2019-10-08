@@ -29,6 +29,8 @@
         "@hapi/hapi": "^18.4.0",
         "@hapi/inert": "^5.2.2",
         "@hapi/nes": "^11.2.2",
+        "azure-iot-device": "^1.12.0",
+        "azure-iot-device-mqtt": "^1.11.0",
         "cheerio": "^1.0.0-rc.3",
         "fs-extra": "^8.1.0",
         "hapi-auth-jwt2": "^8.7.0",

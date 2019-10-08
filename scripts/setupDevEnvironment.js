@@ -51,6 +51,12 @@ function start() {
         configDirDst = path.resolve(workspaceRootFolder, `storage`);
         configFileDst = path.resolve(configDirDst, `state.json`);
         createDevConfiguration(path.resolve(workspaceRootFolder, `setup`, `state.json`), configDirDst, configFileDst);
+        
+        const stateConfigFullPath = path.resolve(configDirDst, configFileDst);
+        const stateConfig = fse.readJsonSync(stateConfigFullPath);
+        stateConfig.system.systemName = uuid.v4();
+        stateConfig.system.systemId = uuid.v4();
+        fse.writeJsonSync(stateConfigFullPath, stateConfig, { spaces: 4 });
     } catch (e) {
         setupFailed = true;
     } finally {

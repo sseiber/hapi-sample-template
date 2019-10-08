@@ -1,7 +1,8 @@
-# HAPI micro-service template
+# HAPI micro-service template for IoT Central
 
 ## Summary
-This is basic HAPI micro-service to be used as a starting place for a micro-service project. As a convenience it includes the following package/frameworks:
+This is basic HAPI micro-service to be used as a starting place for a micro-service project. This branch includes startup code for an IoT Central device or gateway project.
+As a convenience it includes the following package/frameworks:
 * TypeScript
 * spryly
   * TypeScript classes and decorations for HapiJS

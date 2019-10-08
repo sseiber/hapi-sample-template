@@ -1,6 +1,7 @@
 import { service, inject } from 'spryly';
 import { LoggingService } from './logging';
 import { SampleService } from './sample';
+import { IoTCentralService } from './iotcentral';
 import * as _get from 'lodash.get';
 import { bind, forget } from '../utils';
 
@@ -23,6 +24,9 @@ export class HealthService {
     @inject('sample')
     private sample: SampleService;
 
+    @inject('iotCentral')
+    private iotCentral: IoTCentralService;
+
     private heathCheckStartTime = Date.now();
     private failingStreak = 1;
 
@@ -39,11 +43,12 @@ export class HealthService {
     @bind
     public async checkHealthState(): Promise<number> {
         const sampleServiceHealth = await this.sample.getHealth();
+        const iotCentralHealth = await this.iotCentral.getHealth();
         let healthState = HealthState.Good;
 
-        if (sampleServiceHealth < HealthState.Good) {
+        if (sampleServiceHealth < HealthState.Good || iotCentralHealth < HealthState.Good) {
 
-            this.logger.log(['HealthService', 'warning'], `Health check watch:${sampleServiceHealth}`);
+            this.logger.log(['HealthService', 'warning'], `Health check watch - s:${sampleServiceHealth} i:${iotCentralHealth}`);
 
             if ((Date.now() - this.heathCheckStartTime) > (1000 * healthCheckStartPeriod) && ++this.failingStreak >= healthCheckRetries) {
                 this.logger.log(['HealthService', 'warning'], `Restart service here...`);
