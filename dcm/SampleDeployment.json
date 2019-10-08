@@ -3,10 +3,10 @@
         "$edgeAgent": {
             "properties.desired": {
                 "modules": {
-                    "PeabodyIoTCentral": {
+                    "SampleModule": {
                         "settings": {
                             "image": "<CONTAINERNAME:TAG>",
-                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"9010/tcp\":[{\"HostPort\":\"9010\"}]},\"Binds\":[\"/run/systemd:/run/systemd\",\"/var/run/docker.sock:/var/run/docker.sock\",\"/data/misc:/data/misc\",\"/etc/version:/etc/version\",\"/sys/class/power_supply/battery/capacity:/sys/class/power_supply/battery/capacity\"],\"NetworkMode\":\"host\"},\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}}}"
+                            "createOptions": "{\"HostConfig\":{\"PortBindings\":{\"9010/tcp\":[{\"HostPort\":\"9010\"}]},\"Binds\":[\"/run/systemd:/run/systemd\",\"/data/misc:/data/misc\"],\"NetworkMode\":\"host\"},\"NetworkingConfig\":{\"EndpointsConfig\":{\"host\":{}}}}"
                         },
                         "type": "docker",
                         "env": {
@@ -64,13 +64,10 @@
                 }
             }
         },
-        "PeabodyIoTCentral": {
+        "SampleModule": {
             "properties.desired": {
-                "wpHdmiOutput": true,
-                "wpInferenceThreshold": 70,
-                "wpDetectClass": "person",
-                "wpWowzaPlayerLicense": "None",
-                "wpWowzaPlayerVideoSourceUrl": "None"
+                "wpSampleSetting1": true,
+                "wpSampleSetting2": "These should be sample properties that your module handles"
             }
         }
     }
