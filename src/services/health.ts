@@ -1,9 +1,12 @@
 import { service, inject } from 'spryly';
 import { LoggingService } from './logging';
 import { SampleService } from './sample';
-import { IoTCentralService } from './iotcentral';
+import {
+    SampleModuleFieldIds,
+    IoTCentralService
+} from './iotcentral';
 import * as _get from 'lodash.get';
-import { bind, forget } from '../utils';
+import { bind } from '../utils';
 
 // const healthCheckInterval = 30;
 // const healthCheckTimeout = 30;
@@ -34,8 +37,8 @@ export class HealthService {
         this.logger.log(['HealthService', 'info'], 'initialize');
 
         if (_get(process.env, 'LOCAL_DEBUG') === '1') {
-            setInterval(() => {
-                forget(this.checkHealthState);
+            setInterval(async () => {
+                await this.checkHealthState();
             }, (1000 * 15));
         }
     }
@@ -45,6 +48,10 @@ export class HealthService {
         const sampleServiceHealth = await this.sample.getHealth();
         const iotCentralHealth = await this.iotCentral.getHealth();
         let healthState = HealthState.Good;
+
+        await this.iotCentral.sendTelemetryData({
+            [SampleModuleFieldIds.Telemetry.DeviceHeartbeat]: sampleServiceHealth + iotCentralHealth
+        });
 
         if (sampleServiceHealth < HealthState.Good || iotCentralHealth < HealthState.Good) {
 

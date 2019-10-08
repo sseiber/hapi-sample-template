@@ -108,7 +108,6 @@ export class IoTCentralService {
     private iotcClient: any = null;
     private iotcModuleTwin: any = null;
     private iotcClientConnected: boolean = false;
-    private iotcTelemetryThrottleTimer: number = Date.now();
     private iotcSampleSettingsInternal: ISampleSettings = {
         sampleSetting1: true,
         sampleSetting2: ''
@@ -191,7 +190,7 @@ export class IoTCentralService {
                 this.iotcClient.onMethod(SampleModuleFieldIds.Command.RestartCommand, this.iotcClientRestartDevice);
 
                 this.logger.log(['IoTCentralService', 'info'], `Getting twin interface...`);
-                this.iotcModuleTwin = await this.iotcClient.getTwinAsync();
+                this.iotcModuleTwin = await this.iotcClient.getTwin();
                 this.logger.log(['IoTCentralService', 'info'], `Connected to module twin...`);
 
                 this.logger.log(['IoTCentralService', 'info'], `Registering for twin updates...`);
@@ -223,24 +222,6 @@ export class IoTCentralService {
         }
 
         return result;
-    }
-
-    public async sendThrottledTelemetryData(inferenceData: any): Promise<void> {
-        if (!inferenceData || !this.iotcClientConnected) {
-            return;
-        }
-
-        if (((Date.now() - this.iotcTelemetryThrottleTimer) < 1000)) {
-            return;
-        }
-        this.iotcTelemetryThrottleTimer = Date.now();
-
-        try {
-            await this.sendTelemetryData(inferenceData);
-        }
-        catch (ex) {
-            this.logger.log(['IoTCentralService', 'error'], `sendThrottledTelemetryData: ${ex.message}`);
-        }
     }
 
     @bind

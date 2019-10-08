@@ -4,6 +4,11 @@ import { ConfigService } from './config';
 import { LoggingService } from './logging';
 import { StateService } from './state';
 import { HealthState } from './health';
+import {
+    SampleServiceState,
+    SampleModuleFieldIds,
+    IoTCentralService
+} from './iotcentral';
 import { bind } from '../utils';
 
 export interface IRequestResult {
@@ -27,6 +32,9 @@ export class SampleService {
     @inject('state')
     private state: StateService;
 
+    @inject('iotCentral')
+    private iotCentral: IoTCentralService;
+
     private healthState = HealthState.Good;
     private sampleSetting1: string = '';
     private sampleSetting2: string = '';
@@ -47,8 +55,18 @@ export class SampleService {
 
     @bind
     public async startModule(): Promise<void> {
-        setTimeout(() => {
+        await this.iotCentral.sendTelemetryData({
+            [SampleModuleFieldIds.Property.SampleProp1]: 'Sample data 1',
+            [SampleModuleFieldIds.Property.SampleProp2]: 'Sample data 2'
+        });
+
+        setTimeout(async () => {
             this.logger.log(['SampleService', 'info'], `In procesing callback`);
+
+            await this.iotCentral.sendTelemetryData({
+                [SampleModuleFieldIds.State.SampleService]: SampleServiceState.Active,
+                [SampleModuleFieldIds.Event.ServiceStarted]: ''
+            });
         }, (1000 * 15));
     }
 
