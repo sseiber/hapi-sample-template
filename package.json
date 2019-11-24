@@ -1,6 +1,6 @@
 {
     "name": "hapi-sample-template",
-    "version": "1.0.1",
+    "version": "1.0.4",
     "description": "Hapi sample template",
     "main": "index.js",
     "scripts": {
@@ -52,7 +52,7 @@
         "@types/hapi__nes": "*",
         "@types/jest": "^24.0.18",
         "@types/nconf": "0.10.0",
-        "@types/node": "^11.12.2",
+        "@types/node": "^11.15.2",
         "@types/request": "^2.48.3",
         "jest": "^24.9.0",
         "ts-jest": "^24.1.0",
